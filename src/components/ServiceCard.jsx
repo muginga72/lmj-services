@@ -1,7 +1,9 @@
-const ServiceCard = ({ name, description, icon }) => (
+import React from "react";
+
+const ServiceCard = ({ title, description, image }) => (
   <div className="service-card">
-    <img src={icon} alt={`${name} icon`} />
-    <h3>{name}</h3>
+    <img src={ImageDecoder} alt={`${title} image`} />
+    <h3>{title}</h3>
     <p>{description}</p>
   </div>
 );
