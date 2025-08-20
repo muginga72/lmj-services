@@ -1,17 +1,14 @@
-export default [
-  {
-    name: 'Plumbing',
-    description: 'Expert plumbing services for residential and commercial needs.',
-    icon: '/icons/plumbing.svg'
-  },
-  {
-    name: 'Electrical',
-    description: 'Certified electricians for safe and efficient installations.',
-    icon: '/icons/electrical.svg'
-  },
-  {
-    name: 'Landscaping',
-    description: 'Beautiful outdoor designs and maintenance.',
-    icon: '/icons/landscaping.svg'
-  }
-];
+import { Link } from 'react-router-dom';
+
+const Header = () => (
+  <nav>
+    <h1>ServiceCo</h1>
+    <ul>
+      <li><Link to="/">Home</Link></li>
+      <li><Link to="/services">Services</Link></li>
+      <li><Link to="/contact">Contact</Link></li>
+    </ul>
+  </nav>
+);
+
+export default Header;
