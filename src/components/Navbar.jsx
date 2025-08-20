@@ -1,20 +1,20 @@
-import { Link, NavLink } from 'react-router-dom';
-import './Navbar.css'; // Optional: for styling
+import { Navbar, Nav, Container } from 'react-bootstrap';
 
-const Navbar = () => {
-  return (
-    <nav className="navbar">
-      <div className="navbar-logo">
-        <Link to="/">ServiceCo</Link>
-      </div>
-      <ul className="navbar-links">
-        <li><NavLink to="/" end>Home</NavLink></li>
-        <li><NavLink to="/services">Services</NavLink></li>
-        <li><NavLink to="/about">About</NavLink></li>
-        <li><NavLink to="/contact">Contact</NavLink></li>
-      </ul>
-    </nav>
-  );
-};
+const NavigationBar = () => (
+  <Navbar bg="light" expand="lg">
+    <Container>
+      <Navbar.Brand href="#">LMJ Services</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="ms-auto">
+          <Nav.Link href="#">About</Nav.Link>
+          <Nav.Link href="#">Who We Are</Nav.Link>
+          <Nav.Link href="#">Contact Us</Nav.Link>
+          <Nav.Link href="#">Services</Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
+    </Container>
+  </Navbar>
+);
 
-export default Navbar;
+export default NavigationBar;

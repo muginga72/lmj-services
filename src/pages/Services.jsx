@@ -1,17 +1,20 @@
 import React from 'react';
 import '../Services.css';
+import { Container, Row, Col } from 'react-bootstrap';
 import {services} from '../data/services';
 import ServiceCard from '../components/ServiceCard';
 
 const Services = () => (
-  <section>
-    <h2 style={{ textAlign: "center"}}>Our Services</h2>
-    <div className="services-grid">
+  <Container className="py-5">
+    <h2 className="text-center mb-4">Our Services</h2>
+    <Row>
       {services.map(service => (
-        <ServiceCard key={service.title} {...service} />
+        <Col key={service.id} md={4} className="mb-4">
+          <ServiceCard {...service} />
+        </Col>
       ))}
-    </div>
-  </section>
+    </Row>
+  </Container>
 );
 
 export default Services;
