@@ -86,3 +86,9 @@
   margin-top: 0.5rem;
   color: #555;
 }
+
+.hover-shadow:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+  transform: scale(1.02);
+  transition: all 0.2s ease-in-out;
+}
