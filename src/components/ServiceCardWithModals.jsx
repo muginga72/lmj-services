@@ -6,7 +6,6 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
   const [showModal, setShowModal] = useState({
     request: false,
     schedule: false,
-    cancel: false,
     share: false,
   });
 
@@ -15,24 +14,40 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
     details: "",
     date: "",
     time: "",
-    cancelReason: "",
     email: "",
   });
 
   const [selectedService, setSelectedService] = useState(null);
+  const [activeModalType, setActiveModalType] = useState("");
 
   const handleShow = (type) => {
     setSelectedService(title);
+    setActiveModalType(type);
     setShowModal((prev) => ({ ...prev, [type]: true }));
   };
 
   const handleClose = (type) => {
     setShowModal((prev) => ({ ...prev, [type]: false }));
+    setActiveModalType("");
   };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const getPlaceholder = (field) => {
+    if (activeModalType === "request") {
+      if (field === "serviceType") return `Type of ${selectedService}`;
+      if (field === "details") return `Describe your ${selectedService} request...`;
+    }
+    if (activeModalType === "schedule") {
+      if (field === "serviceType") return `Scheduling for ${selectedService} `;
+    }
+    if (activeModalType === "share") {
+      if (field === "email") return `Enter email to share ${selectedService}`;
+    }
+    return "";
   };
 
   const handleSubmitRequest = () => {
@@ -68,7 +83,7 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
 
   return (
     <>
-      <Card className="h-100 shadow-sm hover-shadow clickable-card d-flex flex-column">
+      <Card className="h-100 shadow-sm d-flex flex-column">
         <Card.Img
           variant="top"
           src={image}
@@ -117,7 +132,7 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
               <Form.Label>Service Type</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="e.g., Wedding event"
+                placeholder={getPlaceholder("serviceType")}
                 value={formData.serviceType}
                 onChange={handleChange}
               />
@@ -127,7 +142,7 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
               <Form.Control
                 as="textarea"
                 rows={3}
-                placeholder="Describe your request..."
+                placeholder={getPlaceholder("details")}
                 value={formData.details}
                 onChange={handleChange}
               />
@@ -140,17 +155,6 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
           </Button>
           <Button variant="success" onClick={handleSubmitRequest}>
             Submit Request
-          </Button>
-          <Button
-            variant="danger"
-            onClick={() => {
-              console.log("Request Cancelled:", formData);
-              setFormData((prev) => ({ ...prev, serviceType: "", details: "" }));
-              handleClose("request");
-            }}
-            disabled={!formData.serviceType && !formData.details}
-          >
-            Cancel Request
           </Button>
         </Modal.Footer>
       </Modal>
@@ -166,7 +170,7 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
               <Form.Label>Service Type</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="e.g., Consultation"
+                placeholder={getPlaceholder("serviceType")}
                 value={formData.serviceType}
                 onChange={handleChange}
               />
@@ -214,7 +218,7 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
               <Form.Label>Recipient Email</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="example@domain.com"
+                placeholder={getPlaceholder("email")}
                 value={formData.email}
                 onChange={handleChange}
               />
