@@ -6,57 +6,92 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
   const [showModal, setShowModal] = useState({
     request: false,
     schedule: false,
-    cancel: false,
     share: false,
   });
 
-  const [formData, setFormData] = useState({
+  const [selectedService, setSelectedService] = useState(null);
+  const [activeModalType, setActiveModalType] = useState("");
+
+  // Separate form states for each modal
+  const [requestData, setRequestData] = useState({
     serviceType: "",
     details: "",
+  });
+
+  const [scheduleData, setScheduleData] = useState({
+    serviceType: "",
     date: "",
     time: "",
-    cancelReason: "",
+  });
+
+  const [shareData, setShareData] = useState({
     email: "",
   });
 
-  const [selectedService, setSelectedService] = useState(null);
-
   const handleShow = (type) => {
     setSelectedService(title);
+    setActiveModalType(type);
     setShowModal((prev) => ({ ...prev, [type]: true }));
   };
 
   const handleClose = (type) => {
     setShowModal((prev) => ({ ...prev, [type]: false }));
+    setActiveModalType("");
   };
 
-  const handleChange = (e) => {
+  // Modal-specific change handlers
+  const handleRequestChange = (e) => {
     const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
+    setRequestData((prev) => ({ ...prev, [id]: value }));
   };
 
+  const handleScheduleChange = (e) => {
+    const { id, value } = e.target;
+    setScheduleData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleShareChange = (e) => {
+    const { id, value } = e.target;
+    setShareData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const getPlaceholder = (field) => {
+    if (activeModalType === "request") {
+      if (field === "serviceType") return `Type of ${selectedService}`;
+      if (field === "details") return `Describe your ${selectedService} request...`;
+    }
+    if (activeModalType === "schedule") {
+      if (field === "serviceType") return `Scheduling for ${selectedService}`;
+    }
+    if (activeModalType === "share") {
+      if (field === "email") return `Enter email to share ${selectedService}`;
+    }
+    return "";
+  };
+
+  // Submit handlers
   const handleSubmitRequest = () => {
     console.log("Request Submitted:", {
       selectedService,
-      serviceType: formData.serviceType,
-      details: formData.details,
+      ...requestData,
     });
     handleClose("request");
+    setRequestData({ serviceType: "", details: "" });
   };
 
   const handleSubmitSchedule = () => {
     console.log("Schedule Confirmed:", {
       selectedService,
-      serviceType: formData.serviceType,
-      date: formData.date,
-      time: formData.time,
+      ...scheduleData,
     });
     handleClose("schedule");
+    setScheduleData({ serviceType: "", date: "", time: "" });
   };
 
   const handleSubmitShare = () => {
-    console.log("Service Shared To:", formData.email);
+    console.log("Service Shared To:", shareData.email);
     handleClose("share");
+    setShareData({ email: "" });
   };
 
   const today = new Date().toLocaleDateString(undefined, {
@@ -68,7 +103,7 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
 
   return (
     <>
-      <Card className="h-100 shadow-sm hover-shadow clickable-card d-flex flex-column">
+      <Card className="h-100 shadow-sm d-flex flex-column">
         <Card.Img
           variant="top"
           src={image}
@@ -117,9 +152,9 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
               <Form.Label>Service Type</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="e.g., Wedding event"
-                value={formData.serviceType}
-                onChange={handleChange}
+                placeholder={getPlaceholder("serviceType")}
+                value={requestData.serviceType}
+                onChange={handleRequestChange}
               />
             </Form.Group>
             <Form.Group controlId="details" className="mt-3">
@@ -127,9 +162,9 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
               <Form.Control
                 as="textarea"
                 rows={3}
-                placeholder="Describe your request..."
-                value={formData.details}
-                onChange={handleChange}
+                placeholder={getPlaceholder("details")}
+                value={requestData.details}
+                onChange={handleRequestChange}
               />
             </Form.Group>
           </Form>
@@ -138,19 +173,12 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
           <Button variant="secondary" onClick={() => handleClose("request")}>
             Close
           </Button>
-          <Button variant="success" onClick={handleSubmitRequest}>
-            Submit Request
-          </Button>
           <Button
-            variant="danger"
-            onClick={() => {
-              console.log("Request Cancelled:", formData);
-              setFormData((prev) => ({ ...prev, serviceType: "", details: "" }));
-              handleClose("request");
-            }}
-            disabled={!formData.serviceType && !formData.details}
+            variant="success"
+            onClick={handleSubmitRequest}
+            disabled={!requestData.serviceType || !requestData.details}
           >
-            Cancel Request
+            Submit Request
           </Button>
         </Modal.Footer>
       </Modal>
@@ -166,25 +194,25 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
               <Form.Label>Service Type</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="e.g., Consultation"
-                value={formData.serviceType}
-                onChange={handleChange}
+                placeholder={getPlaceholder("serviceType")}
+                value={scheduleData.serviceType}
+                onChange={handleScheduleChange}
               />
             </Form.Group>
             <Form.Group controlId="date" className="mt-3">
               <Form.Label>Date</Form.Label>
               <Form.Control
                 type="date"
-                value={formData.date}
-                onChange={handleChange}
+                value={scheduleData.date}
+                onChange={handleScheduleChange}
               />
             </Form.Group>
             <Form.Group controlId="time" className="mt-3">
               <Form.Label>Time</Form.Label>
               <Form.Control
                 type="time"
-                value={formData.time}
-                onChange={handleChange}
+                value={scheduleData.time}
+                onChange={handleScheduleChange}
               />
             </Form.Group>
           </Form>
@@ -196,7 +224,9 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
           <Button
             variant="primary"
             onClick={handleSubmitSchedule}
-            disabled={!formData.serviceType || !formData.date || !formData.time}
+            disabled={
+              !scheduleData.serviceType || !scheduleData.date || !scheduleData.time
+            }
           >
             Confirm Schedule
           </Button>
@@ -214,9 +244,9 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
               <Form.Label>Recipient Email</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="example@domain.com"
-                value={formData.email}
-                onChange={handleChange}
+                placeholder={getPlaceholder("email")}
+                value={shareData.email}
+                onChange={handleShareChange}
               />
             </Form.Group>
           </Form>
@@ -225,7 +255,11 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
           <Button variant="secondary" onClick={() => handleClose("share")}>
             Close
           </Button>
-          <Button variant="outline-secondary" onClick={handleSubmitShare}>
+          <Button
+            variant="outline-secondary"
+            onClick={handleSubmitShare}
+            disabled={!shareData.email}
+          >
             Send Invite
           </Button>
         </Modal.Footer>
