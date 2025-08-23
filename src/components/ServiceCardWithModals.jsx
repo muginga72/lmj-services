@@ -9,6 +9,7 @@ const ServiceCardWithModals = () => {
     cancel: false,
     share: false,
   });
+  
   const handleShow = (type) => setShowModal({ ...showModal, [type]: true });
   const handleClose = (type) => setShowModal({ ...showModal, [type]: false });
 
@@ -26,7 +27,7 @@ const ServiceCardWithModals = () => {
       >
         <Card.Img 
           variant="top" 
-          src="../assets/images/chemistryServiceHub.png" 
+          src="https://via.placeholder.com/320x180" 
           style={{ borderTopLeftRadius: '15px', borderTopRightRadius: '15px' }}
         />
         <Card.Body>
