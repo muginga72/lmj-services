@@ -14,11 +14,13 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
 
   // Separate form states for each modal
   const [requestData, setRequestData] = useState({
+    fullName: "",
     serviceType: "",
     details: "",
   });
 
   const [scheduleData, setScheduleData] = useState({
+    fullName: "",
     serviceType: "",
     date: "",
     time: "",
@@ -57,10 +59,12 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
 
   const getPlaceholder = (field) => {
     if (activeModalType === "request") {
+      if (field === "fullName") return "Your full name";
       if (field === "serviceType") return `Type of ${selectedService}`;
       if (field === "details") return `Describe your ${selectedService} request...`;
     }
     if (activeModalType === "schedule") {
+      if (field === "fullName") return "Your full name";
       if (field === "serviceType") return `Scheduling for ${selectedService}`;
     }
     if (activeModalType === "share") {
@@ -76,7 +80,7 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
       ...requestData,
     });
     handleClose("request");
-    setRequestData({ serviceType: "", details: "" });
+    setRequestData({ fullName: "", serviceType: "", details: "" });
   };
 
   const handleSubmitSchedule = () => {
@@ -85,7 +89,7 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
       ...scheduleData,
     });
     handleClose("schedule");
-    setScheduleData({ serviceType: "", date: "", time: "" });
+    setScheduleData({ fullName: "", serviceType: "", date: "", time: "" });
   };
 
   const handleSubmitShare = () => {
@@ -148,6 +152,15 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
         </Modal.Header>
         <Modal.Body>
           <Form>
+              <Form.Group controlId="fullName">
+              <Form.Label>Full Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder={getPlaceholder("fullName")}
+                value={requestData.fullName}
+                onChange={handleRequestChange}
+              />
+              </Form.Group>
             <Form.Group controlId="serviceType">
               <Form.Label>Service Type</Form.Label>
               <Form.Control
@@ -190,6 +203,15 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
         </Modal.Header>
         <Modal.Body>
           <Form>
+            <Form.Group controlId="fullName">
+              <Form.Label>Full Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder={getPlaceholder("fullName")}
+                value={scheduleData.fullName}
+                onChange={handleScheduleChange}
+              />
+            </Form.Group>
             <Form.Group controlId="serviceType">
               <Form.Label>Service Type</Form.Label>
               <Form.Control
@@ -225,7 +247,10 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
             variant="primary"
             onClick={handleSubmitSchedule}
             disabled={
-              !scheduleData.serviceType || !scheduleData.date || !scheduleData.time
+              !scheduleData.fullName ||
+              !scheduleData.serviceType || 
+              !scheduleData.date || 
+              !scheduleData.time
             }
           >
             Confirm Schedule
