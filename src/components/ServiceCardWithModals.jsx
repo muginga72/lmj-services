@@ -2,63 +2,64 @@ import React, { useState } from 'react';
 import { Card, Button, ButtonGroup, Modal, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const ServiceCardWithModals = () => {
+const ServiceCardWithModals = ({ title, description, image, link }) => {
   const [showModal, setShowModal] = useState({
     request: false,
     schedule: false,
     cancel: false,
     share: false,
   });
-  
+
   const handleShow = (type) => setShowModal({ ...showModal, [type]: true });
   const handleClose = (type) => setShowModal({ ...showModal, [type]: false });
 
+  const today = new Date().toLocaleDateString(undefined, {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
   return (
     <>
-      <Card 
-        style={{
-          width: '22rem',
-          borderRadius: '15px',
-          boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
-          background: 'linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)',
-          fontFamily: 'Segoe UI, sans-serif'
-        }}
-        className="m-3"
-      >
-        <Card.Img 
-          variant="top" 
-          src="https://via.placeholder.com/320x180" 
-          style={{ borderTopLeftRadius: '15px', borderTopRightRadius: '15px' }}
-        />
+      <Card className="h-100 shadow-sm hover-shadow clickable-card d-flex flex-column">
+        <Card.Img variant="top" src={image} alt={title} />
         <Card.Body>
-          <Card.Title style={{ fontWeight: '600', fontSize: '1.25rem' }}>
-            🧪 Chemistry Service Hub
-          </Card.Title>
-          <Card.Text style={{ fontSize: '0.95rem', color: '#555' }}>
-            Manage your lab simulations, nutrition analysis, and educational outreach from one place.
-          </Card.Text>
+          <Card.Title>{title}</Card.Title>
+          <Card.Text>{description}</Card.Text>
+        </Card.Body>
 
-          <ButtonGroup vertical className="w-100 mt-3">
+        {/* ButtonGroup placed outside Card.Body, above Footer */}
+        <div className="px-3 pb-3">
+          <ButtonGroup vertical className="w-100">
             <Button variant="success" className="mb-2" onClick={() => handleShow('request')}>
               Request Services
             </Button>
             <Button variant="primary" className="mb-2" onClick={() => handleShow('schedule')}>
               Schedule Services
             </Button>
-            <Button variant="danger" className="mb-2" onClick={() => handleShow('cancel')}>
+            {/* <Button variant="danger" className="mb-2" onClick={() => handleShow('cancel')}>
               Cancel Services
-            </Button>
+            </Button> */}
             <Button variant="outline-secondary" onClick={() => handleShow('share')}>
               Share
             </Button>
           </ButtonGroup>
-        </Card.Body>
-        <Card.Footer style={{ backgroundColor: '#f8f9fa', borderTop: 'none', fontSize: '0.8rem', color: '#888' }}>
-          Last updated: Aug 21, 2025
+        </div>
+
+        <Card.Footer
+          style={{
+            backgroundColor: '#f8f9fa',
+            borderTop: 'none',
+            fontSize: '0.8rem',
+            color: '#888',
+          }}
+        >
+          {today}
         </Card.Footer>
       </Card>
 
-      {/* Request Modal */}
+      {/* Modals */}
       <Modal show={showModal.request} onHide={() => handleClose('request')}>
         <Modal.Header closeButton>
           <Modal.Title>Request Services</Modal.Title>
@@ -81,7 +82,6 @@ const ServiceCardWithModals = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* Schedule Modal */}
       <Modal show={showModal.schedule} onHide={() => handleClose('schedule')}>
         <Modal.Header closeButton>
           <Modal.Title>Schedule Services</Modal.Title>
@@ -104,7 +104,6 @@ const ServiceCardWithModals = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* Cancel Modal */}
       <Modal show={showModal.cancel} onHide={() => handleClose('cancel')}>
         <Modal.Header closeButton>
           <Modal.Title>Cancel Services</Modal.Title>
@@ -122,7 +121,7 @@ const ServiceCardWithModals = () => {
           <Button variant="danger">Cancel Service</Button>
         </Modal.Footer>
       </Modal>
-      {/* Share Modal */}
+
       <Modal show={showModal.share} onHide={() => handleClose('share')}>
         <Modal.Header closeButton>
           <Modal.Title>Share This Service</Modal.Title>
@@ -143,4 +142,5 @@ const ServiceCardWithModals = () => {
     </>
   );
 };
+
 export default ServiceCardWithModals;
