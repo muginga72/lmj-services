@@ -10,8 +10,8 @@ const NavigationBar = () => (
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ms-auto">
-          <LinkContainer to="/about">
-            <Nav.Link>About</Nav.Link>
+          <LinkContainer to="/">
+            <Nav.Link>Home</Nav.Link>
           </LinkContainer>
           <LinkContainer to="/who-we-are">
             <Nav.Link>Who We Are</Nav.Link>
@@ -24,10 +24,19 @@ const NavigationBar = () => (
               <NavDropdown.Item>Web Development</NavDropdown.Item>
             </LinkContainer>
             <LinkContainer to="/services/wedding-events">
-              <NavDropdown.Item>Wedding Events</NavDropdown.Item>
+              <NavDropdown.Item>Wedding</NavDropdown.Item>
             </LinkContainer>
             <LinkContainer to="/services/tutoring">
               <NavDropdown.Item>Tutoring</NavDropdown.Item>
+            </LinkContainer>
+            <LinkContainer to="/services/buffet">
+              <NavDropdown.Item>Buffet</NavDropdown.Item>
+            </LinkContainer>
+            <LinkContainer to="/services/beverages">
+              <NavDropdown.Item>Beverages</NavDropdown.Item>
+            </LinkContainer>
+            <LinkContainer to="/services/beauty">
+              <NavDropdown.Item>Beauty</NavDropdown.Item>
             </LinkContainer>
           </NavDropdown>
         </Nav>
