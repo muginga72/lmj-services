@@ -1,62 +1,43 @@
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import Home from './pages/Home';
-// import Services from './pages/Services';
-// import Contact from './pages/Contact';
-
-// function App() {
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/" element={<Home />} />
-//         <Route path="/services" element={<Services />} />
-//         <Route path="/contact" element={<Contact />} />
-//       </Routes>
-//     </Router>
-//   );
-// }
-
-// export default App;
-
-// import Navbar from './components/Navbar';
-// import Services from './pages/Services';
-// import Footer from './components/Footer';
-
-// function App() {
-//   return (
-//     <>
-//       <Navbar />
-//       <Services />
-//       <Footer />
-//     </>
-//   );
-// }
-
-// export default App;
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
-import About from './pages/About';
+import Home from './pages/Home';
 import Services from './pages/Services';
 import WhoWeAre from './pages/WhoWeAre';
 import Contact from './pages/Contact';
 import Footer from './components/Footer';
-import WebDevelopment from './pages/services/WebDevelopment';
-import WeddingEvents from './pages/services/WeddingEvents';
-import Tutoring from './pages/services/Tutoring';
+import WebDevelopmentServices from './pages/services/WebDevelopmentServices';
+import WeddingEventServices from './pages/services/WeddingEventServices';
+import TutoringServices from './pages/services/TutoringServices';
+import BuffetServices from './pages/services/BuffetServices';
+import BeverageServices from './pages/services/BeverageServices';
+import BeautyServices from './pages/services/BeautyServices';
+import BeautyPromo from './data/BeautyPromo';
 
 function App() {
   return (
     <Router>
+      {/* Rendering the Navbar and banner */}
       <NavigationBar />
-      <Services />
+      <BeautyPromo />
+
       <Routes>
-        <Route path="/about" element={<About />} />
+        <Route path="/" element={<Home />} />
         <Route path="/who-we-are" element={<WhoWeAre />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/services/web-development" element={<WebDevelopment />} />
-        <Route path="/services/wedding-events" element={<WeddingEvents />} />
-        <Route path="/services/tutoring" element={<Tutoring />} />
+
+        {/* Route for the services available */}
+        <Route path="/services/web-development" element={<WebDevelopmentServices />} />
+        <Route path="/services/wedding-events" element={<WeddingEventServices />} />
+        <Route path="/services/tutoring" element={<TutoringServices />} />
+        <Route path="/services/buffet" element={<BuffetServices />} />
+        <Route path="/services/beverages" element={<BeverageServices />} />
+        <Route path="/services/beauty" element={<BeautyServices />} />
       </Routes>
+
+      {/* Render the Services cards */}
+      <Services />
+
+      {/* Render the footer */}
       <Footer />
     </Router>
   );
