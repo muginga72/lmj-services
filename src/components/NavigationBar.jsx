@@ -1,23 +1,27 @@
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import logo from '/public/images/logo.png'; // Adjust path as needed
 
 const NavigationBar = () => (
   <Navbar bg="light" expand="lg">
     <Container>
       <LinkContainer to="/">
-        <Navbar.Brand>LMJ Services</Navbar.Brand>
+        <Navbar.Brand className="d-flex align-items-center gap-2">
+          <img
+            src={logo}
+            alt="LMJ Logo"
+            width="70"
+            height="50"
+            className="rounded-circle"
+          />
+          LMJ Services
+        </Navbar.Brand>
       </LinkContainer>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ms-auto">
           <LinkContainer to="/">
             <Nav.Link>Home</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to="/who-we-are">
-            <Nav.Link>Who We Are</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to="/contact">
-            <Nav.Link>Contact Us</Nav.Link>
           </LinkContainer>
           <NavDropdown title="Services" id="services-dropdown">
             <LinkContainer to="/services/web-development">
