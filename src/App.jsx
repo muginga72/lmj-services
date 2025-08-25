@@ -11,14 +11,14 @@ import TutoringServices from './pages/services/TutoringServices';
 import BuffetServices from './pages/services/BuffetServices';
 import BeverageServices from './pages/services/BeverageServices';
 import BeautyServices from './pages/services/BeautyServices';
-import BeautyPromo from './data/BeautyPromo';
+import ServicesPromo from './data/ServicesPromo';
 
 function App() {
   return (
     <Router>
       {/* Rendering the Navbar and banner */}
       <NavigationBar />
-      <BeautyPromo />
+      <ServicesPromo />
 
       <Routes>
         <Route path="/" element={<Home />} />
