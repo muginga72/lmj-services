@@ -1,5 +1,5 @@
 const WhoWeAre = () => (
-  <div className="container py-5">
+  <div style={{ padding: '2rem', fontFamily: 'Arial, sans-serif' }}>
     <h3>Who We Are</h3>
     <p>
       <strong>Laurindo Muginga Retail and Service Provision</strong> is a service and retail company offering quality, professionalism, and social responsibility. We aim to provide quality and personalized service. We exist to serve and will continue to serve with responsibility and dedication, showing that the customer is the reason for our existence.

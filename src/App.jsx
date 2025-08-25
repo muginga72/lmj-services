@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
 import Home from './pages/Home';
-import Services from './pages/Services';
 import WhoWeAre from './pages/WhoWeAre';
 import Contact from './pages/Contact';
 import Footer from './components/Footer';
@@ -33,9 +32,6 @@ function App() {
         <Route path="/services/beverages" element={<BeverageServices />} />
         <Route path="/services/beauty" element={<BeautyServices />} />
       </Routes>
-
-      {/* Render the Services cards */}
-      <Services />
 
       {/* Render the footer */}
       <Footer />
