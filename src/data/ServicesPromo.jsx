@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Carousel,
-  Image,
-} from "react-bootstrap";
+import { Container, Row, Col, Carousel, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -30,11 +23,11 @@ const ServicesPromo = () => {
       name: "Chemistry Tutor",
       image: "/src/images/tutor-chemistry.png",
     },
+    {
+      name: "Wedding",
+      image: "/src/images/wedding.png",
+    },
   ];
-
-  const handleShopNow = () => {
-    navigate("/shop");
-  };
 
   return (
     <div>
@@ -43,9 +36,16 @@ const ServicesPromo = () => {
           <Col md={4} className="text-center text-md-start mb-4 mb-md-0">
             <h2 className="fw-bold text-danger">Buy for Half Price</h2>
             <p className="lead text-muted">Select from our Products List</p>
-            <Button variant="primary" size="lg" onClick={handleShopNow}>
+            <button
+              onClick={() => window.open("/learn-more", "_blank")}
+              style={{
+                marginRight: "1rem",
+                backgroundColor: "lightgray",
+                color: "green",
+              }}
+            >
               Learn More
-            </Button>
+            </button>
           </Col>
           <Col md={8} className="d-flex justify-content-center">
             <Carousel className="w-75 text-center">

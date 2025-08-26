@@ -11,6 +11,7 @@ import BuffetServices from './pages/services/BuffetServices';
 import BeverageServices from './pages/services/BeverageServices';
 import BeautyServices from './pages/services/BeautyServices';
 import ServicesPromo from './data/ServicesPromo';
+import LearnMore from './pages/LearnMore'; // Adjust path if needed
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/who-we-are" element={<WhoWeAre />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/learn-more" element={<LearnMore />} />
 
         {/* Route for the services available */}
         <Route path="/services/web-development" element={<WebDevelopmentServices />} />
