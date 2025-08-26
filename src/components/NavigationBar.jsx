@@ -1,6 +1,6 @@
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import logo from '/public/images/logo.png'; // Adjust path as needed
+import logo from '/src/images/logo.png'; // Adjust path as needed
 
 const NavigationBar = () => (
   <Navbar bg="light" expand="lg">
