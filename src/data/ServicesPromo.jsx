@@ -16,19 +16,19 @@ const ServicesPromo = () => {
   const products = [
     {
       name: "Beauty Promotion",
-      image: "/images/beautyPromo.jpg",
+      image: "/src/images/beautyPromo.jpg",
     },
     {
       name: "Dinner",
-      image: "/images/dinner.png",
+      image: "/src/images/dinner.png",
     },
     {
       name: "Buffet",
-      image: "/images/buffet.png",
+      image: "/src/images/buffet.png",
     },
     {
       name: "Chemistry Tutor",
-      image: "/images/tutor-chemistry.png",
+      image: "/src/images/tutor-chemistry.png",
     },
   ];
 

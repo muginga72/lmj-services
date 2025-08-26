@@ -10,8 +10,8 @@ const NavigationBar = () => (
           <img
             src={logo}
             alt="LMJ Logo"
-            width="70"
-            height="50"
+            width="80"
+            height="80"
             className="rounded-circle"
           />
           LMJ Services
