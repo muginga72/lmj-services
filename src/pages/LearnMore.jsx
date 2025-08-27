@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { servicesObject } from "../data/servicesObject";
 import PaginationServices from "../components/PaginationServices";
 import { paginate } from "../utils/paginate";
+import Carousel from "react-bootstrap/Carousel";
 
 const LearnMore = () => {
   const servicesArray = Object.entries(servicesObject);
@@ -39,29 +40,23 @@ const LearnMore = () => {
             {service.title}
           </h3>
 
-          {/* Image Carousel */}
-          <div
-            className="carousel"
-            style={{
-              display: "flex",
-              overflowX: "auto",
-              gap: "1rem",
-              paddingBottom: "1rem",
-            }}
-          >
+          {/* Carousel per service */}
+          <Carousel>
             {service.image.map((img, index) => (
-              <img
-                key={index}
-                src={`/src/images/${img}`}
-                alt={`${service.title} ${index + 1}`}
-                style={{
-                  height: "300px",
-                  borderRadius: "8px",
-                  objectFit: "cover",
-                }}
-              />
+              <Carousel.Item key={index}>
+                <img
+                  src={`/src/images/${img}`}
+                  alt={`${service.title} ${index + 1}`}
+                  style={{
+                    height: "300px",
+                    borderRadius: "8px",
+                    objectFit: "cover",
+                    width: "100%",
+                  }}
+                />
+              </Carousel.Item>
             ))}
-          </div>
+          </Carousel>
 
           {/* Accordion Description */}
           <details
