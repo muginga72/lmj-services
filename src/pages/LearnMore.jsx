@@ -4,28 +4,61 @@ import { servicesObject } from '../data/servicesObject';
 const LearnMore = () => {
   return (
     <div style={{ padding: '2rem' }}>
-      <h2 style={{ textAlign: 'center', marginTop: "20px", marginBottom: "30px", color: 'blue' }}>Explore Our Services</h2>
+      <h2 style={{ textAlign: 'center', marginTop: '20px', marginBottom: '30px', color: 'blue' }}>
+        Explore Our Services
+      </h2>
 
       {Object.entries(servicesObject).map(([key, service]) => (
-        <div key={key} className="service-block" style={{ marginBottom: '2rem', border: '1px solid #ccc', borderRadius: '8px', padding: '1rem' }}>
-          <h2>{service.title}</h2>
+        <div
+          key={key}
+          className="service-card"
+          style={{
+            marginBottom: '2rem',
+            border: '1px solid #ccc',
+            borderRadius: '10px',
+            padding: '1.5rem',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+          }}
+        >
+          <h3 style={{ marginBottom: '1rem', color: '#333' }}>{service.title}</h3>
 
-          {/* Carousel */}
-          <div className="carousel-wrapper" style={{ display: 'flex', overflowX: 'auto', gap: '1rem', padding: '1rem 0' }}>
-            {service.images.map((img, index) => (
+          {/* Image Carousel */}
+          <div
+            className="carousel"
+            style={{
+              display: 'flex',
+              overflowX: 'auto',
+              gap: '1rem',
+              paddingBottom: '1rem',
+            }}
+          >
+            {service.image.map((img, index) => (
               <img
                 key={index}
-                src={`/images/${img}`}
+                src={`/src/images/${img}`}
                 alt={`${service.title} ${index + 1}`}
-                style={{ height: '150px', borderRadius: '8px' }}
+                style={{
+                  height: '300px',
+                  borderRadius: '8px',
+                  objectFit: 'cover',
+                }}
               />
             ))}
           </div>
 
-          {/* Accordion */}
-          <details style={{ backgroundColor: '#bbe2ebff', padding: '1rem', borderRadius: '6px', cursor: 'pointer' }}>
-            <summary style={{ fontWeight: 'bold', fontSize: '1rem' }}>Description</summary>
-            <p style={{ marginTop: '1rem', color: 'blue' }}>{service.description}</p>
+          {/* Accordion Description */}
+          <details
+            style={{
+              backgroundColor: '#e6f7ff',
+              padding: '1rem',
+              borderRadius: '6px',
+              marginTop: '1rem',
+            }}
+          >
+            <summary style={{ fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
+              Description
+            </summary>
+            <p style={{ marginTop: '1rem', color: '#005a9c' }}>{service.description}</p>
           </details>
         </div>
       ))}
