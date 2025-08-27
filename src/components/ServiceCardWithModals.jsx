@@ -112,7 +112,7 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
           variant="top"
           src={image}
           alt={title}
-          style={{ objectFit: "cover", height: "200px" }}
+          style={{ objectFit: "cover", height: "300px" }}
         />
         <Card.Body>
           <Card.Title>{title}</Card.Title>
