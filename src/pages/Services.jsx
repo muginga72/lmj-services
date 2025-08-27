@@ -1,8 +1,7 @@
 import React from 'react';
 import '../Services.css';
 import { Container, Row, Col } from 'react-bootstrap';
-import {services} from '../data/services';
-// import ServiceCard from '../components/ServiceCard';
+import { services } from '../data/services';
 import ServiceCardWithModals from "../components/ServiceCardWithModals";
 
 const Services = () => (
@@ -11,8 +10,9 @@ const Services = () => (
     <Row>
       {services.map(service => (
         <Col key={service.id} md={4} className="mb-4">
-          {/* <ServiceCard {...service} /> */}
-          <ServiceCardWithModals {...service}/>
+          <div className="service-card-hover">
+            <ServiceCardWithModals {...service} />
+          </div>
         </Col>
       ))}
     </Row>

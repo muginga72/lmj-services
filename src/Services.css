@@ -87,8 +87,12 @@
   color: #555;
 }
 
-.hover-shadow:hover {
-  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
-  transform: scale(1.02);
-  transition: all 0.2s ease-in-out;
+.service-card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card-hover:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
