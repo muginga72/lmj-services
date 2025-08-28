@@ -1,63 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Button, ButtonGroup, Modal, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const ServiceCardWithModals = ({ title, description, image, link }) => {
-  const [showModal, setShowModal] = useState({
-    request: false,
-    schedule: false,
-    share: false,
-  });
+const ServiceCardWithModals = ({ title, description, image }) => {
+  const localKey = `serviceCardState-${title}`;
 
-  const [selectedService, setSelectedService] = useState(null);
-  const [activeModalType, setActiveModalType] = useState("");
+  const defaultState = {
+    showModal: { request: false, schedule: false, share: false },
+    selectedService: null,
+    activeModalType: "",
+    requestData: { fullName: "", serviceType: "", details: "" },
+    scheduleData: { fullName: "", serviceType: "", date: "", time: "" },
+    shareData: { email: "" },
+  };
 
-  // Separate form states for each modal
-  const [requestData, setRequestData] = useState({
-    fullName: "",
-    serviceType: "",
-    details: "",
-  });
+  const [state, setState] = useState(defaultState);
 
-  const [scheduleData, setScheduleData] = useState({
-    fullName: "",
-    serviceType: "",
-    date: "",
-    time: "",
-  });
+  // Load persisted state on mount
+  useEffect(() => {
+    const saved = localStorage.getItem(localKey);
+    if (saved) {
+      setState(JSON.parse(saved));
+    }
+  }, [localKey]);
 
-  const [shareData, setShareData] = useState({
-    email: "",
-  });
+  // Persist state on change
+  useEffect(() => {
+    localStorage.setItem(localKey, JSON.stringify(state));
+  }, [state, localKey]);
 
   const handleShow = (type) => {
-    setSelectedService(title);
-    setActiveModalType(type);
-    setShowModal((prev) => ({ ...prev, [type]: true }));
+    setState((prev) => ({
+      ...prev,
+      selectedService: title,
+      activeModalType: type,
+      showModal: { ...prev.showModal, [type]: true },
+    }));
   };
 
   const handleClose = (type) => {
-    setShowModal((prev) => ({ ...prev, [type]: false }));
-    setActiveModalType("");
+    setState((prev) => ({
+      ...prev,
+      activeModalType: "",
+      showModal: { ...prev.showModal, [type]: false },
+    }));
   };
 
-  // Modal-specific change handlers
-  const handleRequestChange = (e) => {
+  const handleChange = (e, formType) => {
     const { id, value } = e.target;
-    setRequestData((prev) => ({ ...prev, [id]: value }));
-  };
-
-  const handleScheduleChange = (e) => {
-    const { id, value } = e.target;
-    setScheduleData((prev) => ({ ...prev, [id]: value }));
-  };
-
-  const handleShareChange = (e) => {
-    const { id, value } = e.target;
-    setShareData((prev) => ({ ...prev, [id]: value }));
+    setState((prev) => ({
+      ...prev,
+      [formType]: { ...prev[formType], [id]: value },
+    }));
   };
 
   const getPlaceholder = (field) => {
+    const { activeModalType, selectedService } = state;
     if (activeModalType === "request") {
       if (field === "fullName") return "Your full name";
       if (field === "serviceType") return `Type of ${selectedService}`;
@@ -73,29 +71,39 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
     return "";
   };
 
-  // Submit handlers
-  const handleSubmitRequest = () => {
-    console.log("Request Submitted:", {
-      selectedService,
-      ...requestData,
-    });
-    handleClose("request");
-    setRequestData({ fullName: "", serviceType: "", details: "" });
-  };
+  const handleSubmit = (type) => {
+    if (type === "request") {
+      console.log("Request Submitted:", {
+        selectedService: state.selectedService,
+        ...state.requestData,
+      });
+      setState((prev) => ({
+        ...prev,
+        showModal: { ...prev.showModal, request: false },
+        requestData: defaultState.requestData,
+      }));
+    }
 
-  const handleSubmitSchedule = () => {
-    console.log("Schedule Confirmed:", {
-      selectedService,
-      ...scheduleData,
-    });
-    handleClose("schedule");
-    setScheduleData({ fullName: "", serviceType: "", date: "", time: "" });
-  };
+    if (type === "schedule") {
+      console.log("Schedule Confirmed:", {
+        selectedService: state.selectedService,
+        ...state.scheduleData,
+      });
+      setState((prev) => ({
+        ...prev,
+        showModal: { ...prev.showModal, schedule: false },
+        scheduleData: defaultState.scheduleData,
+      }));
+    }
 
-  const handleSubmitShare = () => {
-    console.log("Service Shared To:", shareData.email);
-    handleClose("share");
-    setShareData({ email: "" });
+    if (type === "share") {
+      console.log("Service Shared To:", state.shareData.email);
+      setState((prev) => ({
+        ...prev,
+        showModal: { ...prev.showModal, share: false },
+        shareData: defaultState.shareData,
+      }));
+    }
   };
 
   const today = new Date().toLocaleDateString(undefined, {
@@ -146,28 +154,28 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
       </Card>
 
       {/* Request Modal */}
-      <Modal show={showModal.request} onHide={() => handleClose("request")} centered>
+      <Modal show={state.showModal.request} onHide={() => handleClose("request")} centered>
         <Modal.Header closeButton>
           <Modal.Title>Request Services</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-              <Form.Group controlId="fullName">
+            <Form.Group controlId="fullName">
               <Form.Label>Full Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder={getPlaceholder("fullName")}
-                value={requestData.fullName}
-                onChange={handleRequestChange}
+                value={state.requestData.fullName}
+                onChange={(e) => handleChange(e, "requestData")}
               />
-              </Form.Group>
+            </Form.Group>
             <Form.Group controlId="serviceType">
               <Form.Label>Service Type</Form.Label>
               <Form.Control
                 type="text"
                 placeholder={getPlaceholder("serviceType")}
-                value={requestData.serviceType}
-                onChange={handleRequestChange}
+                value={state.requestData.serviceType}
+                onChange={(e) => handleChange(e, "requestData")}
               />
             </Form.Group>
             <Form.Group controlId="details" className="mt-3">
@@ -176,8 +184,8 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
                 as="textarea"
                 rows={3}
                 placeholder={getPlaceholder("details")}
-                value={requestData.details}
-                onChange={handleRequestChange}
+                value={state.requestData.details}
+                onChange={(e) => handleChange(e, "requestData")}
               />
             </Form.Group>
           </Form>
@@ -188,8 +196,8 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
           </Button>
           <Button
             variant="success"
-            onClick={handleSubmitRequest}
-            disabled={!requestData.serviceType || !requestData.details}
+            onClick={() => handleSubmit("request")}
+            disabled={!state.requestData.serviceType || !state.requestData.details}
           >
             Submit Request
           </Button>
@@ -197,7 +205,7 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
       </Modal>
 
       {/* Schedule Modal */}
-      <Modal show={showModal.schedule} onHide={() => handleClose("schedule")} centered>
+      <Modal show={state.showModal.schedule} onHide={() => handleClose("schedule")} centered>
         <Modal.Header closeButton>
           <Modal.Title>Schedule Services</Modal.Title>
         </Modal.Header>
@@ -208,8 +216,8 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
               <Form.Control
                 type="text"
                 placeholder={getPlaceholder("fullName")}
-                value={scheduleData.fullName}
-                onChange={handleScheduleChange}
+                value={state.scheduleData.fullName}
+                onChange={(e) => handleChange(e, "scheduleData")}
               />
             </Form.Group>
             <Form.Group controlId="serviceType">
@@ -217,24 +225,24 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
               <Form.Control
                 type="text"
                 placeholder={getPlaceholder("serviceType")}
-                value={scheduleData.serviceType}
-                onChange={handleScheduleChange}
+                value={state.scheduleData.serviceType}
+                onChange={(e) => handleChange(e, "scheduleData")}
               />
             </Form.Group>
             <Form.Group controlId="date" className="mt-3">
               <Form.Label>Date</Form.Label>
               <Form.Control
                 type="date"
-                value={scheduleData.date}
-                onChange={handleScheduleChange}
+                value={state.scheduleData.date}
+                onChange={(e) => handleChange(e, "scheduleData")}
               />
             </Form.Group>
             <Form.Group controlId="time" className="mt-3">
               <Form.Label>Time</Form.Label>
               <Form.Control
                 type="time"
-                value={scheduleData.time}
-                onChange={handleScheduleChange}
+                value={state.scheduleData.time}
+                onChange={(e) => handleChange(e, "scheduleData")}
               />
             </Form.Group>
           </Form>
@@ -245,12 +253,12 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
           </Button>
           <Button
             variant="primary"
-            onClick={handleSubmitSchedule}
+            onClick={() => handleSubmit("schedule")}
             disabled={
-              !scheduleData.fullName ||
-              !scheduleData.serviceType || 
-              !scheduleData.date || 
-              !scheduleData.time
+              !state.scheduleData.fullName ||
+              !state.scheduleData.serviceType ||
+              !state.scheduleData.date ||
+              !state.scheduleData.time
             }
           >
             Confirm Schedule
@@ -259,19 +267,19 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
       </Modal>
 
       {/* Share Modal */}
-      <Modal show={showModal.share} onHide={() => handleClose("share")} centered>
+      <Modal show={state.showModal.share} onHide={() => handleClose("share")} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Share This Service</Modal.Title>
+          <Modal.Title>Share Service</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group controlId="email">
-              <Form.Label>Recipient Email</Form.Label>
+              <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
                 placeholder={getPlaceholder("email")}
-                value={shareData.email}
-                onChange={handleShareChange}
+                value={state.shareData.email}
+                onChange={(e) => handleChange(e, "shareData")}
               />
             </Form.Group>
           </Form>
@@ -282,10 +290,10 @@ const ServiceCardWithModals = ({ title, description, image, link }) => {
           </Button>
           <Button
             variant="outline-secondary"
-            onClick={handleSubmitShare}
-            disabled={!shareData.email}
+            onClick={() => handleSubmit("share")}
+            disabled={!state.shareData.email}
           >
-            Send Invite
+            Share
           </Button>
         </Modal.Footer>
       </Modal>
