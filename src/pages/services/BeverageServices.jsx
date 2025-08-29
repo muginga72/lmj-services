@@ -1,5 +1,5 @@
-import beverageImg from '/src/assets/images/beverage.png'
 import React from 'react';
+import beverageImg from '/images/beverage.png'
 
 const BeverageServices = () => (
   <div className="container py-5">

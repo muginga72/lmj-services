@@ -1,5 +1,5 @@
 import React from 'react';
-import tutoringImage from '/src/assets/images/tutoring.png';
+import tutoringImage from '/images/tutoring.png';
 
 const TutoringServices = () => (
   <div className="service-page">

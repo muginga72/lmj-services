@@ -1,9 +1,9 @@
-import tutoringImg from '../assets/images/tutoring.png';
-import webDevImg from '../assets/images/web-dev.png';
-import weddingImg from '../assets/images/wedding.png';
-import buffetImg from '../assets/images/buffet.png';
-import beautySalonImg from '../assets/images/beautySalon.png';
-import beverageImg from '../assets/images/beverage.png'
+import tutoringImg from '/images/tutoring.png';
+import webDevImg from '/images/web-dev.png';
+import weddingImg from '/images/wedding.png';
+import buffetImg from '/images/buffet.png';
+import beautySalonImg from '/images/beautySalon.png';
+import beverageImg from '/images/beverage.png'
 
 export const services = [
   {
