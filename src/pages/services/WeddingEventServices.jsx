@@ -1,5 +1,5 @@
 import React from 'react';
-import weddingImg from '/src/assets/images/wedding.png'; // Adjust path as needed
+import weddingImg from '/images/wedding.png'; // Adjust path as needed
 
 const WeddingEventServices = () => (
   <div className="container py-5">

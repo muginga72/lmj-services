@@ -1,5 +1,5 @@
 import React from 'react';
-import webDevImg from '/src/assets/images/web-dev.png'; // Adjust path as needed
+import webDevImg from '/images/web-dev.png'; // Adjust path as needed
 
 const WebDevelopmentServices = () => (
   <div className="service-page">

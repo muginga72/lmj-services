@@ -1,5 +1,5 @@
 import React from 'react';
-import beautySalonImg from '/src/assets/images/beautySalon.png';
+import beautySalonImg from '/images/beautySalon.png';
 
 const BeautyServices = () => (
   <div className="container py-5">

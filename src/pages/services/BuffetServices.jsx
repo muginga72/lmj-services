@@ -1,5 +1,5 @@
-import buffetImg from "/src/assets/images/buffet.png";
 import React from "react";
+import buffetImg from "/images/buffet.png";
 
 const BuffetServices = () => (
   <div className="container py-5">

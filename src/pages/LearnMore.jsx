@@ -45,7 +45,7 @@ const LearnMore = () => {
             {service.image.map((img, index) => (
               <Carousel.Item key={index}>
                 <img
-                  src={`/src/images/${img}`}
+                  src={`/images/${img}`}
                   alt={`${service.title} ${index + 1}`}
                   style={{
                     height: "300px",
